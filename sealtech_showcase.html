@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SealTech System: The Future of Preservation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Tech Tonic -->
+    <!-- Application Structure Plan: A single-page, scrolling product landing page was chosen to guide users through a narrative flow. It starts with a high-level value proposition (Hero), explains the problem and solution, interactively demonstrates the core science (How It Works), details the product components, shows the simple user steps, and highlights key benefits. This structure is more persuasive and user-friendly for a product showcase than a dry report format, leading the user from interest to understanding. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Boyle's Law Principle -> Goal: Explain the core science interactively -> Viz/Presentation: An animated diagram (HTML/CSS) paired with a dynamic Chart.js bar chart. -> Interaction: User clicks a button to trigger an animation showing the bag shrinking while the chart updates pressure/volume bars. -> Justification: Makes an abstract concept tangible and directly links it to the product's function. -> Library/Method: Vanilla JS (DOM manipulation) & Chart.js (Canvas).
+        - Report Info: Core Components (SealPump Modes) -> Goal: Differentiate product features -> Viz/Presentation: Tab-like buttons. -> Interaction: Clicking a mode button updates a description panel. -> Justification: Clean, interactive way to present distinct features without clutter. -> Library/Method: HTML/Tailwind & Vanilla JS.
+        - Report Info: Operational Sequence -> Goal: Show ease of use. -> Viz/Presentation: Numbered, icon-driven cards in a grid. -> Interaction: Subtle fade-in on scroll. -> Justification: Breaks the process into visually appealing, easy-to-digest steps. -> Library/Method: HTML/Tailwind.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-white/80 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-sky-600">SealTech</span>
+                </div>
+                <nav class="hidden md:flex md:space-x-8">
+                    <a href="#how-it-works" class="font-medium text-slate-600 hover:text-sky-600 transition-colors">The Science</a>
+                    <a href="#components" class="font-medium text-slate-600 hover:text-sky-600 transition-colors">Components</a>
+                    <a href="#usage" class="font-medium text-slate-600 hover:text-sky-600 transition-colors">How to Use</a>
+                    <a href="#benefits" class="font-medium text-slate-600 hover:text-sky-600 transition-colors">Benefits</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="pt-24 pb-16 md:pt-32 md:pb-24 bg-white">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-slate-800">Preserve More. Store Smarter.</h1>
+                <p class="mt-4 md:mt-6 text-lg md:text-xl text-slate-600">The SealTech System provides durable, long-term vacuum sealing for everything from seasonal clothing to large food batches, making preservation simple and effective.</p>
+                <a href="#how-it-works" class="mt-8 inline-block bg-sky-600 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-sky-700 transition-all transform hover:scale-105">Discover How It Works</a>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section id="how-it-works" class="py-20">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">The Science of Preservation: Boyle's Law</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">The SealTech System's effectiveness is rooted in a fundamental principle of physics. By removing air from the specialized SealBag, we dramatically reduce the internal pressure. The constant, powerful atmospheric pressure outside then compresses the bag, creating a compact, oxygen-deprived environment perfect for preservation.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold mb-4 text-center">Interactive Demonstration</h3>
+                        <div class="flex justify-center items-center h-48 mb-4">
+                            <div id="seal-bag-visual" class="relative bg-sky-200/50 border-2 border-dashed border-sky-400 rounded-lg transition-all duration-1000 ease-in-out" style="width: 250px; height: 180px;">
+                                <div class="absolute inset-0 flex flex-wrap items-center justify-center p-2 gap-1 opacity-100 transition-opacity duration-1000" id="air-particles">
+                                    <!-- Air particles will be generated by JS -->
+                                </div>
+                                <span class="absolute -top-3 -right-3 bg-white p-1 rounded-full text-xs font-bold text-slate-600">CONTENTS</span>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button id="activate-pump-btn" class="bg-slate-700 text-white font-semibold px-6 py-2 rounded-lg hover:bg-slate-800 transition-colors">Activate SealPump</button>
+                             <button id="reset-btn" class="hidden bg-slate-200 text-slate-700 font-semibold px-6 py-2 rounded-lg hover:bg-slate-300 transition-colors">Reset</button>
+                        </div>
+                    </div>
+                    <div>
+                         <div class="chart-container bg-white p-4 rounded-lg shadow-md">
+                            <canvas id="boylesLawChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Components Section -->
+        <section id="components" class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">Engineered for Performance</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">Every part of the SealTech System, from the multi-layer bag to the powerful pump, is designed for durability, reusability, and a seamless user experience. Explore the core components that make it all possible.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-slate-50 p-8 rounded-lg">
+                         <h3 class="text-2xl font-bold mb-4 text-slate-800">The SealBag</h3>
+                         <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <span class="text-sky-600 font-bold mr-3 mt-1">&#10003;</span>
+                                <span><strong class="font-semibold">Heavy-Duty Material:</strong> A multi-layer polymer blend prevents tears and ensures long-term air tightness.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-sky-600 font-bold mr-3 mt-1">&#10003;</span>
+                                <span><strong class="font-semibold">Proprietary Sealing Track:</strong> An extra-wide, double-track zipper creates a high-pressure, airtight seal with minimal effort.</span>
+                            </li>
+                             <li class="flex items-start">
+                                <span class="text-sky-600 font-bold mr-3 mt-1">&#10003;</span>
+                                <span><strong class="font-semibold">High-Flow Valve:</strong> The reinforced one-way valve allows for rapid air extraction and prevents any leakage over time.</span>
+                            </li>
+                         </ul>
+                    </div>
+                     <div class="bg-slate-50 p-8 rounded-lg">
+                         <h3 class="text-2xl font-bold mb-4 text-slate-800">The SealPump</h3>
+                         <p class="mb-4">A powerful, rechargeable pump with intelligent modes for every need.</p>
+                         <div class="flex space-x-2 mb-4 border-b border-slate-300">
+                             <button data-mode="quick" class="mode-btn flex-1 p-3 font-semibold border-b-2 border-sky-600 text-sky-600">Quick-Vac</button>
+                             <button data-mode="deep" class="mode-btn flex-1 p-3 font-semibold border-b-2 border-transparent text-slate-500">Deep-Seal</button>
+                         </div>
+                         <div id="mode-description">
+                             <h4 class="font-semibold text-lg mb-2">Maximum Compaction</h4>
+                             <p>The high-speed, high-flow mode is perfect for rapidly reducing the bulk of soft items like clothing, bedding, and pillows, maximizing your storage space in seconds.</p>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How to Use Section -->
+        <section id="usage" class="py-20">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">Simple 5-Step Process</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">We designed the SealTech System to be incredibly intuitive. From loading your items to storing them away, the process is quick, easy, and satisfying. Follow these simple steps to get started.</p>
+                </div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-6 text-center">
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <div class="text-3xl font-bold text-sky-600 mb-2">1</div>
+                        <h4 class="font-semibold text-lg mb-2">Load</h4>
+                        <p class="text-sm">Place your item(s) into the SealBag and lay it flat on a surface.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <div class="text-3xl font-bold text-sky-600 mb-2">2</div>
+                        <h4 class="font-semibold text-lg mb-2">Seal</h4>
+                        <p class="text-sm">Firmly slide the zipper across the Sealing Track to close the bag.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <div class="text-3xl font-bold text-sky-600 mb-2">3</div>
+                        <h4 class="font-semibold text-lg mb-2">Vacuum</h4>
+                        <p class="text-sm">Attach the SealPump to the valve and select your desired mode.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow">
+                         <div class="text-3xl font-bold text-sky-600 mb-2">4</div>
+                        <h4 class="font-semibold text-lg mb-2">Compress</h4>
+                        <p class="text-sm">Watch as the bag compresses. The pump shuts off automatically.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow">
+                         <div class="text-3xl font-bold text-sky-600 mb-2">5</div>
+                        <h4 class="font-semibold text-lg mb-2">Store</h4>
+                        <p class="text-sm">Remove the pump and store your now-compact and protected item.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section id="benefits" class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                 <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">Designed for Your Life</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">The SealTech system isn't just a product; it's a better way to manage your space and preserve your valuables. Our design enhancements focus on making the experience seamless and reliable for everyone.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <div class="text-4xl mb-3">🛡️</div>
+                        <h4 class="text-xl font-semibold mb-2">Extreme Durability</h4>
+                        <p>The SealBag is designed to withstand multiple uses and heavy contents without rupturing under pressure, ensuring your items stay safe.</p>
+                    </div>
+                     <div class="text-center">
+                        <div class="text-4xl mb-3">💡</div>
+                        <h4 class="text-xl font-semibold mb-2">Intuitive Feedback</h4>
+                        <p>The SealPump’s display offers simple indicators like "VACUUM MAX" and "CHECK SEAL", making it highly user-friendly and foolproof.</p>
+                    </div>
+                     <div class="text-center">
+                        <div class="text-4xl mb-3">🤲</div>
+                        <h4 class="text-xl font-semibold mb-2">Accessible Design</h4>
+                        <p>The easy-glide Sealing Track is designed to be manipulated by users with limited dexterity, requiring less force than traditional mechanisms.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="bg-slate-800 text-slate-300 py-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>&copy; 2025 SealTech Systems. All rights reserved.</p>
+            <p class="text-sm text-slate-400 mt-2">Revolutionizing storage and preservation through science.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const app = {
+                // Chart variables
+                chart: null,
+                chartData: {
+                    initial: [100, 20],
+                    final: [25, 80]
+                },
+                
+                // DOM Elements
+                elements: {
+                    activateBtn: document.getElementById('activate-pump-btn'),
+                    resetBtn: document.getElementById('reset-btn'),
+                    sealBagVisual: document.getElementById('seal-bag-visual'),
+                    airParticlesContainer: document.getElementById('air-particles'),
+                    modeButtons: document.querySelectorAll('.mode-btn'),
+                    modeDescription: document.getElementById('mode-description'),
+                    navLinks: document.querySelectorAll('header nav a'),
+                },
+
+                init() {
+                    this.setupChart();
+                    this.generateAirParticles();
+                    this.addEventListeners();
+                },
+
+                setupChart() {
+                    const ctx = document.getElementById('boylesLawChart').getContext('2d');
+                    this.chart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Volume', 'External Pressure'],
+                            datasets: [{
+                                label: 'State',
+                                data: this.chartData.initial,
+                                backgroundColor: ['rgba(56, 189, 248, 0.6)', 'rgba(100, 116, 139, 0.6)'],
+                                borderColor: ['rgba(56, 189, 248, 1)', 'rgba(100, 116, 139, 1)'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            maintainAspectRatio: false,
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    max: 100,
+                                    ticks: {
+                                        callback: function(value) {
+                                            return value + '%'
+                                        }
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Volume vs. Pressure Relationship'
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            let label = context.dataset.label || '';
+                                            if (label) {
+                                                label += ': ';
+                                            }
+                                            if (context.parsed.y !== null) {
+                                                label += context.parsed.y + '%';
+                                            }
+                                            return label;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+
+                generateAirParticles(count = 50) {
+                    this.elements.airParticlesContainer.innerHTML = '';
+                    for (let i = 0; i < count; i++) {
+                        const particle = document.createElement('div');
+                        particle.className = 'w-1.5 h-1.5 bg-sky-500 rounded-full';
+                        this.elements.airParticlesContainer.appendChild(particle);
+                    }
+                },
+
+                addEventListeners() {
+                    this.elements.activateBtn.addEventListener('click', () => this.runAnimation());
+                    this.elements.resetBtn.addEventListener('click', () => this.resetAnimation());
+                    
+                    this.elements.modeButtons.forEach(button => {
+                        button.addEventListener('click', (e) => this.handleModeChange(e));
+                    });
+
+                    this.elements.navLinks.forEach(anchor => {
+                        anchor.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                                behavior: 'smooth'
+                            });
+                        });
+                    });
+                },
+                
+                runAnimation() {
+                    this.elements.activateBtn.classList.add('hidden');
+                    this.elements.resetBtn.classList.remove('hidden');
+
+                    // Animate bag
+                    this.elements.sealBagVisual.style.width = '150px';
+                    this.elements.sealBagVisual.style.height = '100px';
+                    this.elements.airParticlesContainer.style.opacity = '0';
+
+                    // Animate chart
+                    this.chart.data.datasets[0].data = this.chartData.final;
+                    this.chart.options.plugins.title.text = 'Low Volume, High Effective Pressure';
+                    this.chart.update();
+                },
+
+                resetAnimation() {
+                    this.elements.activateBtn.classList.remove('hidden');
+                    this.elements.resetBtn.classList.add('hidden');
+                    
+                    // Reset bag
+                    this.elements.sealBagVisual.style.width = '250px';
+                    this.elements.sealBagVisual.style.height = '180px';
+                    this.elements.airParticlesContainer.style.opacity = '1';
+
+                    // Reset chart
+                    this.chart.data.datasets[0].data = this.chartData.initial;
+                    this.chart.options.plugins.title.text = 'Volume vs. Pressure Relationship';
+                    this.chart.update();
+                },
+
+                handleModeChange(e) {
+                    const selectedMode = e.currentTarget.dataset.mode;
+                    
+                    this.elements.modeButtons.forEach(btn => {
+                        btn.classList.remove('border-sky-600', 'text-sky-600');
+                        btn.classList.add('border-transparent', 'text-slate-500');
+                    });
+                    
+                    e.currentTarget.classList.add('border-sky-600', 'text-sky-600');
+                    e.currentTarget.classList.remove('border-transparent', 'text-slate-500');
+
+                    const descriptions = {
+                        quick: {
+                            title: 'Maximum Compaction',
+                            text: 'The high-speed, high-flow mode is perfect for rapidly reducing the bulk of soft items like clothing, bedding, and pillows, maximizing your storage space in seconds.'
+                        },
+                        deep: {
+                            title: 'Long-Term Preservation',
+                            text: 'This lower-flow, high-torque mode achieves a near-maximum vacuum, removing more oxygen to inhibit oxidation. It is ideal for long-term food preservation.'
+                        }
+                    };
+                    
+                    this.elements.modeDescription.innerHTML = `
+                        <h4 class="font-semibold text-lg mb-2">${descriptions[selectedMode].title}</h4>
+                        <p>${descriptions[selectedMode].text}</p>
+                    `;
+                }
+            };
+            
+            app.init();
+        });
+    </script>
+</body>
+</html>
