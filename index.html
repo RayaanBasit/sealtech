@@ -260,37 +260,6 @@ Te<!DOCTYPE html>
             </div>
         </section>
 
-        <!-- New: User Image Upload Section -->
-        <section id="user-model" class="py-20 bg-slate-100 border-t border-slate-200">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4">SealTech System</h2>
-                <p class="mb-8 text-lg text-slate-600">Comes in lg. (11" x 16"), med. (8" x 12"), and sm. (6" x 8").</p>
-
-                <!-- File Input Trigger -->
-                <label for="model-image-upload" class="cursor-pointer inline-block bg-sky-600 text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-sky-700 transition-colors transform hover:scale-[1.02]">
-                    <span class="mr-2 text-xl align-middle">&#128247;</span> Select Your Model Image
-                </label>
-                <input type="file" id="model-image-upload" class="hidden" accept="image/*">
-                
-                <!-- Image Display Area -->
-                <div class="mt-8 relative border-4 border-dashed border-sky-400 rounded-xl overflow-hidden shadow-4xl mx-auto max-w-lg w-full" style="min-height: 800px;">
-                    <img 
-                        id="uploaded-model-image" 
-                        src="https://placehold.co/500x300/e0f2fe/0ea5e9?text=Your+Model+Image+Here" 
-                        alt="Uploaded SealTech Model" 
-                        class="w-full h-full object-cover transition-opacity duration-800"
-                    >
-                    <div 
-                        id="image-upload-placeholder" 
-                        class="absolute inset-0 flex flex-col items-center justify-center bg-sky-50/90 text-slate-800 font-medium text-lg pointer-events-none p-4 transition-opacity duration-800">
-                         <span class="text-6xl mb-2">&#128187;</span>
-                         Image Preview Area (800x800 Recommended)
-                    </div>
-                </div>
-                <p id="upload-status" class="mt-4 text-sm text-red-600 font-semibold hidden">Error: Please upload a valid image file.</p>
-            </div>
-        </section>
-        <!-- End New Section -->
     </main>
     
     <footer class="bg-slate-800 text-slate-300 py-8">
@@ -668,6 +637,7 @@ Te<!DOCTYPE html>
     </script>
 </body>
 </html>
+
 
 
 
