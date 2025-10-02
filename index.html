@@ -6,17 +6,47 @@
     <title>SealTech System: The Future of Preservation</title>
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Firebase Imports for Authentication (Required for Canvas Environment) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        // Global variables provided by the Canvas environment
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        if (Object.keys(firebaseConfig).length > 0) {
+            const app = initializeApp(firebaseConfig);
+            window.auth = getAuth(app);
+            
+            // Authenticate user using custom token or anonymously
+            (async () => {
+                try {
+                    if (initialAuthToken) {
+                        await signInWithCustomToken(window.auth, initialAuthToken);
+                    } else {
+                        await signInAnonymously(window.auth);
+                    }
+                    console.log("Firebase Auth initialized successfully.");
+                    // After successful auth, enable the chat input and button
+                    document.getElementById('chat-input').disabled = false;
+                    document.getElementById('send-btn').disabled = false;
+                } catch (error) {
+                    console.error("Firebase Auth error:", error);
+                }
+            })();
+        } else {
+            console.warn("Firebase configuration is missing. Chatbot functionality may be limited.");
+            // Still enable chat for local testing, assuming external API access works
+            document.getElementById('chat-input').disabled = false;
+            document.getElementById('send-btn').disabled = false;
+        }
+    </script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Tech Tonic -->
-    <!-- Application Structure Plan: A single-page, scrolling product landing page was chosen to guide users through a narrative flow. It starts with a high-level value proposition (Hero), explains the problem and solution, interactively demonstrates the core science (How It Works), details the product components, shows the simple user steps, and highlights key benefits. This structure is more persuasive and user-friendly for a product showcase than a dry report format, leading the user from interest to understanding. -->
-    <!-- Visualization & Content Choices: 
-        - Report Info: Boyle's Law Principle -> Goal: Explain the core science interactively -> Viz/Presentation: An animated diagram (HTML/CSS) paired with a dynamic Chart.js bar chart. -> Interaction: User clicks a button to trigger an animation showing the bag shrinking while the chart updates pressure/volume bars. -> Justification: Makes an abstract concept tangible and directly links it to the product's function. -> Library/Method: Vanilla JS (DOM manipulation) & Chart.js (Canvas).
-        - Report Info: Core Components (SealPump Modes) -> Goal: Differentiate product features -> Viz/Presentation: Tab-like buttons. -> Interaction: Clicking a mode button updates a description panel. -> Justification: Clean, interactive way to present distinct features without clutter. -> Library/Method: HTML/Tailwind & Vanilla JS.
-        - Report Info: Operational Sequence -> Goal: Show ease of use. -> Viz/Presentation: Numbered, icon-driven cards in a grid. -> Interaction: Subtle fade-in on scroll. -> Justification: Breaks the process into visually appealing, easy-to-digest steps. -> Library/Method: HTML/Tailwind.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,6 +66,17 @@
                 height: 350px;
             }
         }
+        /* Custom scrollbar for chat box */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #94a3b8; /* slate-400 */
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background-color: #e2e8f0; /* slate-200 */
+        }
     </style>
 </head>
 <body class="text-slate-700">
@@ -45,38 +86,24 @@
             <!-- This inner div uses Flexbox to position items (Logo on left, Nav on right) -->
             <div class="flex justify-between items-center h-20">
                 
-                <!-- 
-                    FIX: This is the corrected block. The logo and branding text 
-                    are now correctly nested inside an <a> tag for navigation, 
-                    and placed in the top-left corner.
-                -->
+                <!-- Logo and Branding -->
                 <a href="/" class="flex items-center space-x-3 text-3xl font-extrabold text-sky-700 transition duration-150 ease-in-out hover:text-sky-900">
-                    <!-- Logo Image Placeholder (H-8 height to fit the header better) -->
                     <img 
                         class="h-8 w-8 rounded-xl shadow-lg border-2 border-sky-200" 
-                        src="https://mail.google.com/mail/u/0/?ui=2&ik=763933fa09&attid=0.1&permmsgid=msg-a:r9065518785204176260&th=199a3f8f1430d5e3&view=fimg&realattid=f_mg94xhvs0&disp=thd&attbid=ANGjdJ89Lvi0mwXK7lFed_vyKByDng9Fw1d2MWTSpXreMTSleF42FGSPteoEeJbSAfukidv5ZVSSFz9wuP4hKJdTNxNe0kz-VWgf2AahCOQGR-FFmRA8TiAlOBBha0k&ats=2524608000000&sz=w1852-h868" 
+                        src="https://placehold.co/40x40/64748b/ffffff?text=ST" 
+                        onerror="this.onerror=null; this.src='https://placehold.co/40x40/64748b/ffffff?text=ST';"
                         alt="SealTech Logo"
                     >
-                    <!-- The Brand Name text -->
                     <span class="text-2xl font-bold text-sky-600">SealTech</span>
                 </a>
 
                 <!-- Navigation Links are kept on the right side -->
                 <nav class="hidden md:flex space-x-8 text-gray-700 font-semibold">
-                    <!-- Adjusted links back to the original sections of your landing page content -->
                     <a href="#how-it-works" class="hover:text-sky-600 transition duration-150 py-2">The Science</a>
                     <a href="#components" class="hover:text-sky-600 transition duration-150 py-2">Components</a>
                     <a href="#usage" class="hover:text-sky-600 transition duration-150 py-2">How to Use</a>
                     <a href="#benefits" class="hover:text-sky-600 transition duration-150 py-2">Benefits</a>
-                </nav>
-            </div>
-        </div>
-    </header>
-                <nav class="hidden md:flex md:space-x-8">
-                    <a href="#how-it-works" class="font-medium text-slate-600 hover:text-sky-600 transition-colors">The Science</a>
-                    <a href="#components" class="font-medium text-slate-600 hover:text-sky-600 transition-colors">Components</a>
-                    <a href="#usage" class="font-medium text-slate-600 hover:text-sky-600 transition-colors">How to Use</a>
-                    <a href="#benefits" class="font-medium text-slate-600 hover:text-sky-600 transition-colors">Benefits</a>
+                    <a href="#chatbot-qa" class="hover:text-sky-600 transition duration-150 py-2">Q&A</a>
                 </nav>
             </div>
         </div>
@@ -92,7 +119,7 @@
             </div>
         </section>
 
-        <!-- How It Works Section -->
+        <!-- How It Works Section (Boyle's Law Simulation) -->
         <section id="how-it-works" class="py-20">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
@@ -104,6 +131,7 @@
                     <div class="bg-white p-6 rounded-lg shadow-md">
                         <h3 class="text-xl font-semibold mb-4 text-center">Our Interactive Demonstration</h3>
                         <div class="flex justify-center items-center h-48 mb-4">
+                            <!-- Visual representation of the bag -->
                             <div id="seal-bag-visual" class="relative bg-sky-200/50 border-2 border-dashed border-sky-400 rounded-lg transition-all duration-1000 ease-in-out" style="width: 250px; height: 180px;">
                                 <div class="absolute inset-0 flex flex-wrap items-center justify-center p-2 gap-1 opacity-100 transition-opacity duration-1000" id="air-particles">
                                     <!-- Air particles will be generated by JS -->
@@ -117,8 +145,8 @@
                         </div>
                     </div>
                     <div>
-                         <div class="chart-container bg-white p-4 rounded-lg shadow-md">
-                            <canvas id="boylesLawChart"></canvas>
+                        <div class="chart-container bg-white p-4 rounded-lg shadow-md">
+                             <canvas id="boylesLawChart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -229,6 +257,39 @@
                 </div>
             </div>
         </section>
+
+        <!-- Product Q&A Chatbot Section -->
+        <section id="chatbot-qa" class="py-20 bg-slate-100">
+            <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">TechSeal Bot: Your Product Expert</h2>
+                    <p class="mt-4 text-lg text-slate-600">Ask us anything about the SealTech System, vacuum sealing, or material science.</p>
+                </div>
+                <!-- Chat Interface -->
+                <div id="chat-container" class="bg-white p-6 rounded-xl shadow-2xl flex flex-col h-[500px] border border-sky-200">
+                    <div id="chat-messages" class="flex-grow overflow-y-auto space-y-4 mb-4 p-2 custom-scrollbar">
+                        <!-- Initial Bot Message -->
+                        <div class="flex justify-start">
+                            <div class="bg-sky-500 text-white p-3 rounded-tr-xl rounded-bl-xl rounded-br-xl max-w-[80%] shadow-md whitespace-pre-wrap">
+                                Hello! I'm TechSeal Bot. I'm here to answer your questions about the SealTech System's features, science, and durability. How can I assist you today?
+                            </div>
+                        </div>
+                    </div>
+                    <form id="chat-form" class="flex space-x-3">
+                        <input type="text" id="chat-input" placeholder="Ask a question..." required disabled
+                            class="flex-grow p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 transition-shadow disabled:bg-slate-50">
+                        <button type="submit" id="send-btn"
+                            class="bg-sky-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-sky-700 transition-colors disabled:opacity-50"
+                            disabled>
+                            Send
+                        </button>
+                    </form>
+                    <div id="status-message" class="mt-2 text-center text-sm text-slate-500 hidden">
+                        TechSeal Bot is typing...
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
     
     <footer class="bg-slate-800 text-slate-300 py-8">
@@ -241,13 +302,116 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
+        // === Core Application Logic ===
+        
+        // Function to sanitize user input to prevent XSS when displaying chat messages
+        function sanitizeInput(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Function to create and append a new message bubble
+        function appendMessage(sender, text) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageWrapper = document.createElement('div');
+            const messageBubble = document.createElement('div');
+            
+            messageBubble.classList.add('p-3', 'max-w-[80%]', 'shadow-md', 'whitespace-pre-wrap');
+
+            if (sender === 'user') {
+                messageWrapper.classList.add('flex', 'justify-end');
+                messageBubble.classList.add('bg-slate-700', 'text-white', 'rounded-tl-xl', 'rounded-bl-xl', 'rounded-tr-xl');
+                messageBubble.innerHTML = sanitizeInput(text);
+            } else { // bot
+                messageWrapper.classList.add('flex', 'justify-start');
+                messageBubble.classList.add('bg-sky-500', 'text-white', 'rounded-tr-xl', 'rounded-bl-xl', 'rounded-br-xl');
+                messageBubble.innerHTML = sanitizeInput(text);
+            }
+
+            messageWrapper.appendChild(messageBubble);
+            chatMessages.appendChild(messageWrapper);
+            
+            // Scroll to the bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Exponential backoff retry handler
+        async function fetchWithRetry(url, options, maxRetries = 3) {
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) {
+                        // Throw error if response status is not OK (4xx or 5xx)
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response;
+                } catch (error) {
+                    console.error(`Attempt ${i + 1} failed: ${error.message}`);
+                    if (i === maxRetries - 1) throw error; 
+                    
+                    // Wait using exponential backoff: 2^i * 1000 ms
+                    const delay = Math.pow(2, i) * 1000;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+            }
+        }
+        
+        // API Call to Gemini
+        async function fetchGeminiResponse(userQuery) {
+            const apiKey = ""; // API key will be provided by the runtime environment
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            const systemPrompt = `You are the TechSeal Bot, a knowledgeable and friendly product expert for the "SealTech System" vacuum sealing product. You must answer all questions related to the product's function, materials, and benefits based on the provided product details. If the user asks about general science or uses outside the product scope, use the Google Search grounding tool to provide an accurate answer.
+            
+            PRODUCT DETAILS:
+            1. The SealBag is made of a multi-layer polymer film ($\approx 70 \mu m$) that includes an EVOH layer for oxygen barrier and superior durability against punctures.
+            2. The seal is an extra-wide, double-track zipper (Proprietary Sealing Track) designed for high-pressure resistance.
+            3. The one-way High-Flow Valve has a three-part rigid housing and uses a flexible silicone duckbill diaphragm that prevents air leakage after the pump is removed.
+            4. The SealPump has two modes: 'Quick-Seal' (maximum compaction for clothing) and 'Deep-Seal' (lower flow, maximum oxygen removal for long-term food preservation).`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                tools: [{ "google_search": {} }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+            };
+
+            document.getElementById('status-message').classList.remove('hidden');
+            
+            try {
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    return candidate.content.parts[0].text;
+                } else {
+                    return "Sorry, I couldn't get a response from the system. Please try again.";
+                }
+            } catch (error) {
+                console.error("Gemini API call failed:", error);
+                return "My circuits are currently overloaded. Please check your internet connection or try again shortly.";
+            } finally {
+                document.getElementById('status-message').classList.add('hidden');
+            }
+        }
+
+
+        // === Main App Object ===
         document.addEventListener('DOMContentLoaded', () => {
             const app = {
                 // Chart variables
                 chart: null,
                 chartData: {
-                    initial: [100, 20],
-                    final: [25, 80]
+                    initial: [100, 20], // Initial Volume (100%), Pressure (20%)
+                    final: [25, 80]    // Final Volume (25%), Pressure (80%)
                 },
                 
                 // DOM Elements
@@ -259,12 +423,17 @@
                     modeButtons: document.querySelectorAll('.mode-btn'),
                     modeDescription: document.getElementById('mode-description'),
                     navLinks: document.querySelectorAll('header nav a'),
+                    chatForm: document.getElementById('chat-form'),
+                    chatInput: document.getElementById('chat-input'),
+                    sendBtn: document.getElementById('send-btn'),
                 },
 
                 init() {
                     this.setupChart();
                     this.generateAirParticles();
                     this.addEventListeners();
+                    this.elements.chatInput.disabled = true; // Disabled initially until Firebase Auth completes
+                    this.elements.sendBtn.disabled = true;
                 },
 
                 setupChart() {
@@ -272,7 +441,7 @@
                     this.chart = new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: ['Volume', 'External Pressure'],
+                            labels: ['Volume', 'Effective Pressure'], // Changed External Pressure to Effective Pressure
                             datasets: [{
                                 label: 'State',
                                 data: this.chartData.initial,
@@ -301,7 +470,7 @@
                                 },
                                 title: {
                                     display: true,
-                                    text: 'Volume vs. Pressure Relationship'
+                                    text: 'Volume vs. Effective Pressure Relationship (Initial State)'
                                 },
                                 tooltip: {
                                     callbacks: {
@@ -326,7 +495,7 @@
                     this.elements.airParticlesContainer.innerHTML = '';
                     for (let i = 0; i < count; i++) {
                         const particle = document.createElement('div');
-                        particle.className = 'w-1.5 h-1.5 bg-sky-500 rounded-full';
+                        particle.className = 'w-1.5 h-1.5 bg-sky-500 rounded-full animate-pulse';
                         this.elements.airParticlesContainer.appendChild(particle);
                     }
                 },
@@ -347,6 +516,9 @@
                             });
                         });
                     });
+
+                    // Chatbot form handler
+                    this.elements.chatForm.addEventListener('submit', (e) => this.handleChatSubmit(e));
                 },
                 
                 runAnimation() {
@@ -356,11 +528,12 @@
                     // Animate bag
                     this.elements.sealBagVisual.style.width = '150px';
                     this.elements.sealBagVisual.style.height = '100px';
-                    this.elements.airParticlesContainer.style.opacity = '0';
+                    this.elements.airParticlesContainer.style.opacity = '0'; // Air removed
+                    this.elements.airParticlesContainer.classList.add('hidden');
 
                     // Animate chart
                     this.chart.data.datasets[0].data = this.chartData.final;
-                    this.chart.options.plugins.title.text = 'Low Volume, High Effective Pressure';
+                    this.chart.options.plugins.title.text = 'Low Volume, High Effective Pressure (Final State)';
                     this.chart.update();
                 },
 
@@ -372,10 +545,11 @@
                     this.elements.sealBagVisual.style.width = '250px';
                     this.elements.sealBagVisual.style.height = '180px';
                     this.elements.airParticlesContainer.style.opacity = '1';
+                    this.elements.airParticlesContainer.classList.remove('hidden');
 
                     // Reset chart
                     this.chart.data.datasets[0].data = this.chartData.initial;
-                    this.chart.options.plugins.title.text = 'Volume vs. Pressure Relationship';
+                    this.chart.options.plugins.title.text = 'Volume vs. Effective Pressure Relationship (Initial State)';
                     this.chart.update();
                 },
 
@@ -405,6 +579,31 @@
                         <h4 class="font-semibold text-lg mb-2">${descriptions[selectedMode].title}</h4>
                         <p>${descriptions[selectedMode].text}</p>
                     `;
+                },
+
+                async handleChatSubmit(e) {
+                    e.preventDefault();
+                    const query = this.elements.chatInput.value.trim();
+                    if (!query) return;
+
+                    // 1. Display user message
+                    appendMessage('user', query);
+                    
+                    // 2. Clear input and disable
+                    this.elements.chatInput.value = '';
+                    this.elements.chatInput.disabled = true;
+                    this.elements.sendBtn.disabled = true;
+
+                    // 3. Get bot response
+                    const botResponse = await fetchGeminiResponse(query);
+
+                    // 4. Display bot message
+                    appendMessage('bot', botResponse);
+
+                    // 5. Re-enable input
+                    this.elements.chatInput.disabled = false;
+                    this.elements.sendBtn.disabled = false;
+                    this.elements.chatInput.focus();
                 }
             };
             
@@ -413,16 +612,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
