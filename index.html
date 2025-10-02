@@ -33,9 +33,10 @@
             /* Set initial size and allow for animation via JS */
             width: 280px;
             height: 200px;
-            transition: all 2s ease-in-out; /* Smooth transition for size changes */
+            transition: all 2s ease-in-out; /* Smooth transition for size changes (CSS effect) */
             position: relative; /* Crucial for absolute positioning of particles */
             overflow: hidden; /* Keep particles inside the boundary */
+            will-change: width, height; /* Optimization for CSS transition */
         }
         
         /* Particle styling */
@@ -45,19 +46,19 @@
             height: 5px;
             background-color: #0ea5e9; /* sky-500 */
             border-radius: 50%;
-            /* No CSS transitions here, movement handled by JS for physics */
+            transition: opacity 0.5s; /* Smooth fade-out when removed */
+            /* No CSS transitions for position, movement handled by JS for physics */
+        }
+        
+        /* Styling for the pump light indicator (fixes missing element for existing JS) */
+        #seal-pump-light {
+            background-color: #ef4444; /* red-500 (off/ready) */
+        }
+        #seal-pump-light.pump-on {
+            background-color: #22c55e; /* green-500 (on/working) */
+            box-shadow: 0 0 10px #22c55e;
         }
 
-        /* Responsive adjustments for mobile */
-        @media (max-width: 767px) {
-            #seal-bag-visual {
-                width: 100%; /* Make it full width on small screens */
-                max-width: 280px;
-                height: 180px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-        }
     </style>
 </head>
 <body class="text-slate-700">
@@ -71,18 +72,19 @@
                     <!-- Using a placeholder image with fallbacks -->
                     <img 
                         class="h-8 w-8 rounded-xl shadow-lg border-2 border-sky-200" 
-                        src="https://placehold.co/40x40/0ea5e9/ffffff?text=ST"
+                        src="file:///C:/Users/mrray/Downloads/S.png"
                         alt="SealTech Logo"
                     >
                     <span class="text-2xl font-bold text-sky-600">SealTech</span>
                 </a>
 
-                <!-- Navigation Links - Removed Chatbot link -->
+                <!-- Navigation Links -->
                 <nav class="hidden md:flex space-x-8 text-gray-700 font-semibold">
                     <a href="#how-it-works" class="hover:text-sky-600 transition duration-150 py-2">The Science</a>
                     <a href="#components" class="hover:text-sky-600 transition duration-150 py-2">Components</a>
                     <a href="#usage" class="hover:text-sky-600 transition duration-150 py-2">How to Use</a>
                     <a href="#benefits" class="hover:text-sky-600 transition duration-150 py-2">Benefits</a>
+                    <a href="#user-model" class="hover:text-sky-600 transition duration-150 py-2">Showcase</a> <!-- New Nav Link -->
                 </nav>
             </div>
         </div>
@@ -98,12 +100,12 @@
             </div>
         </section>
 
-        <!-- How It Works Section (Boyle's Law Simulation) -->
+        <!-- How It Works Section (Vacuum Simulation) -->
         <section id="how-it-works" class="py-20 bg-slate-100">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">The Science of Preservation: Boyle's Law</h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">The SealTech System's effectiveness is rooted in science. By removing air from the specialized SealBag, **volume decreases**, and the remaining air particles cause more **frequent collisions**, thus increasing the **effective pressure** on the contents (Boyle's Law: $P \propto 1/V$).</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">The Science of Vacuum: Air Removal & Compression</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">The SealTech System uses the SealPump to actively **remove air molecules** from the specialized SealBag. This creates a powerful **vacuum**. The external atmospheric pressure then compresses the bag, significantly **reducing its volume** (Boyle's Law: $P \propto 1/V$ applied externally), locking contents in a compact, protected state.</p>
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-8 items-center">
@@ -117,7 +119,7 @@
                                     <!-- Air particles will be dynamically generated and animated by JS -->
                                 </div>
                                 <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                     <span class="text-3xl" id="content-icon">👕</span>
+                                   <span class="text-3xl" id="content-icon">👕</span>
                                 </div>
                             </div>
                             <span class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-white text-xs font-bold text-slate-600 px-3 py-1 rounded-full shadow-md">SealBag</span>
@@ -126,6 +128,8 @@
                             <button id="activate-pump-btn" class="bg-sky-600 text-white font-semibold px-8 py-3 rounded-full hover:bg-sky-700 transition-colors shadow-lg shadow-sky-300/50">
                                 Start SealPump
                             </button>
+                            <!-- Added Pump Status Light -->
+                            <span id="seal-pump-light" class="w-3 h-3 rounded-full inline-block align-middle transition-colors duration-500 shadow-inner"></span>
                             <button id="reset-btn" class="hidden bg-slate-700 text-white font-semibold px-8 py-3 rounded-full hover:bg-slate-800 transition-colors shadow-lg shadow-slate-300/50">
                                 Reset Bag
                             </button>
@@ -166,8 +170,12 @@
                             </li>
                         </ul>
                     </div>
+                    
+                    <!-- SealPump Component Card with Model Design -->
                     <div class="bg-white p-8 rounded-xl shadow-lg border-l-4 border-slate-500">
-                        <h3 class="text-2xl font-bold mb-4 text-slate-800">The SealPump</h3>
+                        <h3 class="text-2xl font-bold mb-4 text-slate-800 text-center">The SealPump Model</h3>
+
+                        <h3 class="text-xl font-bold mb-4 text-slate-800">Operating Modes</h3>
                         <p class="mb-4 text-slate-600">A powerful, rechargeable pump with intelligent modes for every need. Its fast-acting turbine completes the vacuum process in under 30 seconds.</p>
                         <div class="flex space-x-2 mb-4 border-b border-slate-300">
                             <button data-mode="quick" class="mode-btn flex-1 p-3 font-semibold border-b-2 border-sky-600 text-sky-600 transition-colors">Quick-Seal</button>
@@ -178,6 +186,7 @@
                             <p>The high-speed, high-flow mode is perfect for rapidly reducing the bulk of soft items like clothes, bedding, and pillows, maximizing storage space in seconds.</p>
                         </div>
                     </div>
+                    <!-- END SealPump Component Card with Model Design -->
                 </div>
             </div>
         </section>
@@ -251,7 +260,37 @@
             </div>
         </section>
 
-        <!-- The Chatbot Section was removed as requested. -->
+        <!-- New: User Image Upload Section -->
+        <section id="user-model" class="py-20 bg-slate-100 border-t border-slate-200">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Showcase Your SealTech System</h2>
+                <p class="mb-8 text-lg text-slate-600">Upload your own image of the SealTech Pump or a sealed bag to see it displayed below!</p>
+
+                <!-- File Input Trigger -->
+                <label for="model-image-upload" class="cursor-pointer inline-block bg-sky-600 text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-sky-700 transition-colors transform hover:scale-[1.02]">
+                    <span class="mr-2 text-xl align-middle">&#128247;</span> Select Your Model Image
+                </label>
+                <input type="file" id="model-image-upload" class="hidden" accept="image/*">
+                
+                <!-- Image Display Area -->
+                <div class="mt-8 relative border-4 border-dashed border-sky-400 rounded-xl overflow-hidden shadow-2xl mx-auto max-w-lg w-full" style="min-height: 300px;">
+                    <img 
+                        id="uploaded-model-image" 
+                        src="https://placehold.co/500x300/e0f2fe/0ea5e9?text=Your+Model+Image+Here" 
+                        alt="Uploaded SealTech Model" 
+                        class="w-full h-full object-cover transition-opacity duration-300"
+                    >
+                    <div 
+                        id="image-upload-placeholder" 
+                        class="absolute inset-0 flex flex-col items-center justify-center bg-sky-50/90 text-slate-500 font-medium text-lg pointer-events-none p-4 transition-opacity duration-300">
+                         <span class="text-6xl mb-2">&#128187;</span>
+                         Image Preview Area (500x300 Recommended)
+                    </div>
+                </div>
+                <p id="upload-status" class="mt-4 text-sm text-red-600 font-semibold hidden">Error: Please upload a valid image file.</p>
+            </div>
+        </section>
+        <!-- End New Section -->
     </main>
     
     <footer class="bg-slate-800 text-slate-300 py-8">
@@ -268,29 +307,36 @@
         // === SealTech App Logic ===
         
         // Constants for the simulation
-        const PARTICLE_COUNT = 30;
+        const INITIAL_PARTICLE_COUNT = 30;
+        const FINAL_PARTICLE_COUNT = 5; // New: Number of particles remaining after vacuum
+        const PARTICLES_TO_REMOVE = INITIAL_PARTICLE_COUNT - FINAL_PARTICLE_COUNT;
+        
         const PARTICLE_SPEED = 2; // Base speed multiplier
-        const COMPRESSION_DURATION_MS = 3000; // 3 seconds
+        const COMPRESSION_DURATION_MS = 3000; // 3 seconds for the whole process
+        
+        // Bag Size Constants
         const INITIAL_WIDTH = 280;
         const INITIAL_HEIGHT = 200;
-        const FINAL_WIDTH = 100; // 35.7% reduction
-        const FINAL_HEIGHT = 70; // 35% reduction
+        const FINAL_WIDTH = 100; // Final visual size after compression
+        const FINAL_HEIGHT = 70; // Final visual size after compression
+        
+        // Chart Constants (Volume decreases, Effective Pressure/Force increases)
         const INITIAL_VOLUME_PCT = 100;
         const FINAL_VOLUME_PCT = 25; // Represents approx 75% volume reduction
-        const INITIAL_PRESSURE_PCT = 20; // Represents internal pressure is slightly higher than 0
+        const INITIAL_PRESSURE_PCT = 20;
         const FINAL_PRESSURE_PCT = 80; // Represents high effective compression force
         
         let animationFrameId; // For requestAnimationFrame
         let startTime = null;
         let isSimulating = true;
-        
+        let particlesRemoved = 0; // Tracks particles removed during animation
+
         // Particle data structure
         const particles = [];
 
         const app = {
             chart: null,
             
-            // DOM Elements (cleaned up to remove chat elements)
             elements: {
                 activateBtn: document.getElementById('activate-pump-btn'),
                 resetBtn: document.getElementById('reset-btn'),
@@ -298,6 +344,12 @@
                 airParticlesContainer: document.getElementById('air-particles-container'),
                 modeButtons: document.querySelectorAll('.mode-btn'),
                 modeDescription: document.getElementById('mode-description'),
+                sealPumpLight: document.getElementById('seal-pump-light'), // Now correctly linked
+                // New elements for image upload
+                imageInput: document.getElementById('model-image-upload'),
+                imageDisplay: document.getElementById('uploaded-model-image'),
+                imagePlaceholder: document.getElementById('image-upload-placeholder'),
+                uploadStatus: document.getElementById('upload-status'),
             },
 
             // Current state of the bag (used for boundary checking)
@@ -308,8 +360,9 @@
 
             init() {
                 this.setupChart(INITIAL_VOLUME_PCT, INITIAL_PRESSURE_PCT);
-                this.generateAirParticles();
+                this.generateAirParticles(INITIAL_PARTICLE_COUNT);
                 this.addEventListeners();
+                this.handleImageUpload(); // Initialize the image upload handler
                 this.simulationLoop(); // Start the particle movement loop immediately
             },
 
@@ -366,22 +419,26 @@
             // Function to dynamically update the chart during animation
             updateChart(volume, pressure) {
                 this.chart.data.datasets[0].data = [volume, pressure];
-                this.chart.options.plugins.title.text = `Current State (V: ${volume.toFixed(0)}%, P: ${pressure.toFixed(0)}%)`;
+                // Display the actual particle count in the title for clarity
+                this.chart.options.plugins.title.text = `Current State (V: ${volume.toFixed(0)}%, P: ${pressure.toFixed(0)}%, Particles: ${particles.length})`;
                 this.chart.update('none'); // Update immediately without animation
             },
 
-            generateAirParticles() {
+            generateAirParticles(count) {
+                // Clear existing visuals and array
                 this.elements.airParticlesContainer.innerHTML = '';
-                particles.length = 0; // Clear particle array
+                particles.length = 0; 
+                particlesRemoved = 0;
                 
-                for (let i = 0; i < PARTICLE_COUNT; i++) {
+                for (let i = 0; i < count; i++) {
                     const particleEl = document.createElement('div');
                     particleEl.className = 'air-particle';
                     this.elements.airParticlesContainer.appendChild(particleEl);
                     
                     // Random starting position (x, y) and velocity (dx, dy)
-                    const x = Math.random() * this.boundary.width;
-                    const y = Math.random() * this.boundary.height;
+                    // Initial positions should be inside the initial boundary
+                    const x = Math.random() * INITIAL_WIDTH; 
+                    const y = Math.random() * INITIAL_HEIGHT;
                     const dx = (Math.random() - 0.5) * PARTICLE_SPEED;
                     const dy = (Math.random() - 0.5) * PARTICLE_SPEED;
                     
@@ -392,6 +449,7 @@
             // The core physics loop for particle movement and collision
             updateParticles() {
                 const { width, height } = this.boundary;
+                const particleSize = 5; // Particle width/height in px
 
                 particles.forEach(p => {
                     // Update position
@@ -399,13 +457,14 @@
                     p.y += p.dy;
 
                     // Boundary collision (reverses direction)
-                    if (p.x <= 0 || p.x >= width) {
+                    // Clamp position to prevent particles from escaping during shrinking
+                    if (p.x <= 0 || p.x + particleSize >= width) {
                         p.dx *= -1;
-                        p.x = Math.max(0, Math.min(p.x, width)); // Clamp position
+                        p.x = Math.max(0, Math.min(p.x, width - particleSize)); 
                     }
-                    if (p.y <= 0 || p.y >= height) {
+                    if (p.y <= 0 || p.y + particleSize >= height) {
                         p.dy *= -1;
-                        p.y = Math.max(0, Math.min(p.y, height)); // Clamp position
+                        p.y = Math.max(0, Math.min(p.y, height - particleSize)); 
                     }
 
                     // Apply position to DOM element
@@ -420,16 +479,14 @@
                     return;
                 }
                 
-                // Handle compression animation if active
                 if (startTime !== null) {
                     const elapsed = timestamp - startTime;
                     const progress = Math.min(1, elapsed / COMPRESSION_DURATION_MS);
                     
-                    // Calculate current size based on progress
+                    // 1. Calculate current size (Visual Shrinking)
                     const currentWidth = INITIAL_WIDTH - (INITIAL_WIDTH - FINAL_WIDTH) * progress;
                     const currentHeight = INITIAL_HEIGHT - (INITIAL_HEIGHT - FINAL_HEIGHT) * progress;
                     
-                    // Update CSS dimensions
                     this.elements.sealBagVisual.style.width = `${currentWidth}px`;
                     this.elements.sealBagVisual.style.height = `${currentHeight}px`;
 
@@ -437,15 +494,36 @@
                     this.boundary.width = currentWidth;
                     this.boundary.height = currentHeight;
                     
-                    // Update Chart (interpolate values)
+                    // 2. Particle Removal Logic
+                    if (progress < 1) {
+                        // Determine how many particles *should* have been removed by this point
+                        const targetRemoved = Math.floor(progress * PARTICLES_TO_REMOVE);
+                        const particlesToRemoveNow = targetRemoved - particlesRemoved;
+
+                        for (let i = 0; i < particlesToRemoveNow; i++) {
+                            if (particles.length > FINAL_PARTICLE_COUNT) {
+                                // Remove a random particle (simulating extraction)
+                                const randomIndex = Math.floor(Math.random() * particles.length);
+                                const particle = particles.splice(randomIndex, 1)[0];
+                                particle.element.remove();
+                                particlesRemoved++;
+                            }
+                        }
+                    }
+
+                    // 3. Update Chart (interpolate values)
                     const currentVolume = INITIAL_VOLUME_PCT - (INITIAL_VOLUME_PCT - FINAL_VOLUME_PCT) * progress;
                     const currentPressure = INITIAL_PRESSURE_PCT + (FINAL_PRESSURE_PCT - INITIAL_PRESSURE_PCT) * progress;
                     this.updateChart(currentVolume, currentPressure);
 
                     if (progress >= 1) {
                         startTime = null; // Animation finished
+                        this.elements.activateBtn.disabled = true; // Disable until reset
                         this.elements.sealBagVisual.classList.add('bg-sky-600/20', 'border-sky-800'); // Final sealed look
                         this.elements.sealBagVisual.classList.remove('border-dashed');
+                        
+                        // Turn off the pump light when done
+                        this.elements.sealPumpLight.classList.remove('pump-on');
                     }
                 }
                 
@@ -461,7 +539,7 @@
                     button.addEventListener('click', (e) => this.handleModeChange(e));
                 });
                 
-                // Smooth scrolling for navigation (kept from original code)
+                // Smooth scrolling for navigation
                 document.querySelectorAll('header nav a').forEach(anchor => {
                     anchor.addEventListener('click', function (e) {
                         e.preventDefault();
@@ -475,10 +553,14 @@
             runAnimation() {
                 this.elements.activateBtn.classList.add('hidden');
                 this.elements.resetBtn.classList.remove('hidden');
-                
-                // Reset state for compression
+                this.elements.activateBtn.disabled = false; // Enable button initially
+
+                // Reset visual state for compression
                 this.elements.sealBagVisual.classList.remove('bg-sky-600/20', 'border-sky-800');
                 this.elements.sealBagVisual.classList.add('border-dashed');
+
+                // Turn the pump light on
+                this.elements.sealPumpLight.classList.add('pump-on');
 
                 startTime = performance.now(); // Start the compression timer
                 if (!isSimulating) { // Restart loop if stopped
@@ -490,6 +572,7 @@
             resetAnimation() {
                 this.elements.activateBtn.classList.remove('hidden');
                 this.elements.resetBtn.classList.add('hidden');
+                this.elements.activateBtn.disabled = false;
                 
                 // Stop the compression timer and reset the physics boundary
                 startTime = null;
@@ -502,8 +585,11 @@
                 this.elements.sealBagVisual.classList.remove('bg-sky-600/20', 'border-sky-800');
                 this.elements.sealBagVisual.classList.add('border-dashed');
                 
-                // Reset particles (new random positions/velocities)
-                this.generateAirParticles();
+                // Turn the pump light off
+                this.elements.sealPumpLight.classList.remove('pump-on');
+
+                // Reset particles (re-generate initial count)
+                this.generateAirParticles(INITIAL_PARTICLE_COUNT);
 
                 // Reset chart
                 this.updateChart(INITIAL_VOLUME_PCT, INITIAL_PRESSURE_PCT);
@@ -529,21 +615,56 @@
                     },
                     deep: {
                         title: 'Long-Term Preservation',
-                        text: 'This lower-flow mode achieves a nearly maxed vacuum, removing more oxygen to inhibit oxidation. It is ideal for long-term food preservation and material protection.'
+                        text: 'This lower-flow mode achieves a nearly maxed vacuum, removing more oxygen to inhibit oxidation. It is ideal for long-term food preservation and durable goods.' 
                     }
                 };
+                const modeData = descriptions[selectedMode];
                 
                 this.elements.modeDescription.innerHTML = `
-                    <h4 class="font-semibold text-lg mb-2">${descriptions[selectedMode].title}</h4>
-                    <p class="text-slate-600">${descriptions[selectedMode].text}</p>
+                    <h4 class="font-semibold text-lg mb-2">${modeData.title}</h4>
+                    <p>${modeData.text}</p>
                 `;
             },
-        };
+            
+            // New function to handle image upload for the new section
+            handleImageUpload() {
+                const { imageInput, imageDisplay, imagePlaceholder, uploadStatus } = this.elements;
+
+                imageInput.addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    
+                    // Reset status and display
+                    uploadStatus.classList.add('hidden');
+                    imageDisplay.classList.remove('opacity-0');
+                    imagePlaceholder.classList.add('hidden');
+                    imageDisplay.classList.remove('hidden');
+
+                    if (file && file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(e) {
+                            imageDisplay.src = e.target.result;
+                        };
+                        
+                        reader.onerror = function() {
+                            uploadStatus.textContent = 'Error reading file.';
+                            uploadStatus.classList.remove('hidden');
+                        };
+
+                        reader.readAsDataURL(file);
+                    } else {
+                        // Handle invalid file or no file selected
+                        imageDisplay.src = 'https://placehold.co/500x300/e0f2fe/0ea5e9?text=Your+Model+Image+Here';
+                        uploadStatus.textContent = 'Please select a valid image file (PNG, JPG, etc.).';
+                        uploadStatus.classList.remove('hidden');
+                        imagePlaceholder.classList.remove('hidden');
+                    }
+                });
+            }
+        }; // Closing bracket for app object
         
-        document.addEventListener('DOMContentLoaded', () => {
-            app.init();
-        });
-        
+        // Start the application after the window loads
+        window.onload = () => app.init();
     </script>
 </body>
 </html>
