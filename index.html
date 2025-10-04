@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SealTech System: The Future of Preservation</title>
+    <title>SealTech System: Extreme Preservation & Storage</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -33,10 +33,11 @@
             /* Set initial size and allow for animation via JS */
             width: 280px;
             height: 200px;
-            transition: all 2s ease-in-out; /* Smooth transition for size changes (CSS effect) */
+            transition: all 2s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth, aggressive transition for compression */
             position: relative; /* Crucial for absolute positioning of particles */
             overflow: hidden; /* Keep particles inside the boundary */
             will-change: width, height; /* Optimization for CSS transition */
+            border-color: #16a34a; /* green-600 to symbolize freshness/preservation */
         }
         
         /* Particle styling */
@@ -47,12 +48,11 @@
             background-color: #0ea5e9; /* sky-500 */
             border-radius: 50%;
             transition: opacity 0.5s; /* Smooth fade-out when removed */
-            /* No CSS transitions for position, movement handled by JS for physics */
         }
         
-        /* Styling for the pump light indicator (fixes missing element for existing JS) */
+        /* Styling for the pump light indicator */
         #seal-pump-light {
-            background-color: #ef4444; /* red-500 (off/ready) */
+            background-color: #f59e0b; /* amber-500 (off/ready) */
             transition: all 0.5s ease;
         }
         #seal-pump-light.pump-on {
@@ -60,31 +60,46 @@
             box-shadow: 0 0 10px #22c55e;
         }
 
+        .mode-btn.active {
+            border-color: #16a34a; /* green-600 */
+            color: #16a34a;
+        }
+
+        /* Custom style for the LSR sealing track visual cue */
+        .lsr-seal-track {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background-color: #fda4af; /* pink-300 for silicone look */
+            border-bottom: 2px solid #e11d48; /* rose-600 */
+        }
+
     </style>
 </head>
 <body class="text-slate-700">
 
-    <header class="bg-white/80 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 shadow-sm">
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 left-0 right-0 z-50 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 
-                <!-- Logo and Branding (FIXED: Replaced local file URL with professional placeholder) -->
+                <!-- Logo and Branding -->
                 <a href="#" class="flex items-center space-x-3 text-3xl font-extrabold text-sky-700 transition duration-150 ease-in-out hover:text-sky-900">
                     <img 
-                        class="h-8 w-8 rounded-xl shadow-lg border-2 border-sky-200" 
-                        src="https://placehold.co/40x40/0ea5e9/ffffff?text=ST"
+                        class="h-8 w-8 rounded-full shadow-lg border-2 border-green-400" 
+                        src="https://placehold.co/40x40/16a34a/ffffff?text=ST"
                         alt="SealTech Logo"
                     >
-                    <span class="text-2xl font-bold text-sky-600">SealTech</span>
+                    <span class="text-2xl font-bold text-green-600">SealTech</span>
                 </a>
 
                 <!-- Navigation Links -->
                 <nav class="hidden md:flex space-x-8 text-gray-700 font-semibold">
-                    <a href="#how-it-works" class="hover:text-sky-600 transition duration-150 py-2">The Science</a>
-                    <a href="#components" class="hover:text-sky-600 transition duration-150 py-2">Components</a>
-                    <a href="#usage" class="hover:text-sky-600 transition duration-150 py-2">How to Use</a>
-                    <a href="#benefits" class="hover:text-sky-600 transition duration-150 py-2">Benefits</a>
-                    <a href="#user-model" class="hover:text-sky-600 transition duration-150 py-2">Showcase</a>
+                    <a href="#how-it-works" class="hover:text-green-600 transition duration-150 py-2">The Science</a>
+                    <a href="#components" class="hover:text-green-600 transition duration-150 py-2">Engineering</a>
+                    <a href="#benefits" class="hover:text-green-600 transition duration-150 py-2">Preservation Power</a>
+                    <a href="#advanced-use" class="hover:text-green-600 transition duration-150 py-2">Advanced Uses</a>
                 </nav>
             </div>
         </div>
@@ -92,11 +107,11 @@
 
     <main>
         <!-- Hero Section -->
-        <section class="pt-24 pb-16 md:pt-32 md:pb-24 bg-white">
+        <section class="pt-24 pb-16 md:pt-32 md:pb-24 bg-gradient-to-br from-green-50 to-sky-100">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tighter text-slate-800">Preserve More. <span class="text-sky-600">Store Smarter.</span></h1>
-                <p class="mt-4 md:mt-6 text-lg md:text-xl text-slate-600">The SealTech System provides durable, long-term vacuum sealing for everything, from seasonal clothing to large food batches, making preservation simple and effective!</p>
-                <a href="#how-it-works" class="mt-8 inline-block bg-sky-600 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-sky-700 transition-all transform hover:scale-105">Discover How It Works</a>
+                <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tighter text-slate-800">Molecular Preservation. <span class="text-green-600">Extreme Durability.</span></h1>
+                <p class="mt-4 md:mt-6 text-lg md:text-xl text-slate-600">The SealTech System uses advanced materials and atmospheric pressure to create safe, durable, and compact environments for food, clothing, and sensitive equipment.</p>
+                <a href="#how-it-works" class="mt-8 inline-block bg-green-600 text-white font-semibold px-8 py-3 rounded-lg shadow-xl hover:bg-green-700 transition-all transform hover:scale-105">See the Technology</a>
             </div>
         </section>
 
@@ -104,28 +119,30 @@
         <section id="how-it-works" class="py-20 bg-slate-100">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">The Science of the Vacuum</h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">The SealTech System uses the SealPump to actively remove air molecules from the specialized SealBag. This creates a powerful vacuum. The external atmospheric pressure then compresses the bag, significantly reducing its volume (Boyle's Law applied externally), locking contents in a compact, protected state.</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">The Science of Compression: External Boyle's Law</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">The SealPump actively removes air molecules from the specialized SealBag, rapidly creating a powerful low-pressure environment. The immense **external atmospheric pressure** then applies a massive, uniform compression force, shrinking the bag's volume (V) proportionally to the internal pressure (P).</p>
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-8 items-center">
-                    <div class="bg-white p-6 rounded-xl shadow-xl border-t-4 border-sky-600">
-                        <h3 class="text-xl font-semibold mb-4 text-center text-slate-800"> SealPump Demonstration</h3>
+                    <div class="bg-white p-6 rounded-xl shadow-xl border-t-4 border-green-600">
+                        <h3 class="text-xl font-semibold mb-4 text-center text-slate-800"> SealPump Demonstration: Air Molecule Removal</h3>
                         <div class="flex justify-center items-center h-48 mb-6 relative">
                             <!-- Visual representation of the bag -->
-                            <div id="seal-bag-visual" class="bg-sky-200/50 border-4 border-dashed border-sky-600 rounded-xl">
+                            <div id="seal-bag-visual" class="bg-green-100/50 border-4 border-dashed rounded-xl">
+                                <!-- LSR Sealing Track Visual Cue -->
+                                <div class="lsr-seal-track"></div>
                                 <!-- Particle container: particles are absolutely positioned inside this -->
                                 <div class="absolute inset-0" id="air-particles-container">
                                     <!-- Air particles will be dynamically generated and animated by JS -->
                                 </div>
                                 <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                    <span class="text-3xl" id="content-icon">👕</span>
+                                    <span class="text-3xl" id="content-icon">🍎</span>
                                 </div>
                             </div>
-                            <span class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-white text-xs font-bold text-slate-600 px-3 py-1 rounded-full shadow-md">SealBag</span>
+                            <span class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-white text-xs font-bold text-slate-600 px-3 py-1 rounded-full shadow-md">SealBag (HDPE/PU)</span>
                         </div>
                         <div class="text-center space-x-4">
-                            <button id="activate-pump-btn" class="bg-sky-600 text-white font-semibold px-8 py-3 rounded-full hover:bg-sky-700 transition-colors shadow-lg shadow-sky-300/50">
+                            <button id="activate-pump-btn" class="bg-green-600 text-white font-semibold px-8 py-3 rounded-full hover:bg-green-700 transition-colors shadow-lg shadow-green-300/50">
                                 Start SealPump
                             </button>
                             <!-- Added Pump Status Light -->
@@ -145,41 +162,40 @@
             </div>
         </section>
 
-        <!-- Core Components Section -->
+        <!-- Core Components Section (Rewritten) -->
         <section id="components" class="py-20">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">Engineered for Performance</h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">Every part of the SealTech System is manufactured to be user-friendly and simple, while also extremely effective. Explore the components.</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">Precision Engineering & Advanced Materials</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">The SealTech components are designed for high thermal stability, chemical resistance, and extreme reusability.</p>
                 </div>
                 <div class="grid md:grid-cols-2 gap-8">
-                    <div class="bg-white p-8 rounded-xl shadow-lg border-l-4 border-sky-500">
-                        <h3 class="text-2xl font-bold mb-4 text-slate-800">The SealBag</h3>
-                        <ul class="space-y-3">
+                    <!-- SealBag Card -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg border-l-4 border-green-500">
+                        <h3 class="text-2xl font-bold mb-4 text-slate-800">The SealBag: EB Crosslinked Durability</h3>
+                        <ul class="space-y-4">
                             <li class="flex items-start">
-                                <span class="text-sky-600 font-bold mr-3 mt-1 text-lg">&#9733;</span>
-                                <span><strong class="font-semibold">Heavy-Duty Material:</strong> A multi-layer polymer blend stops  tears and ensures long-term air tightness, perfect for both food and cloth.</span>
+                                <span class="text-green-600 font-bold mr-3 mt-1 text-lg">🔬</span>
+                                <span><strong class="font-semibold">Material Science:</strong> Transparent HDPE/Polyurethane blend. The Polyurethane adds superior elasticity and tear resistance to handle extreme compression forces.</span>
                             </li>
                             <li class="flex items-start">
-                                <span class="text-sky-600 font-bold mr-3 mt-1 text-lg">&#9733;</span>
-                                <span><strong class="font-semibold">Proprietary Sealing Track:</strong> An extra-wide, double-track zipper creates a high-pressure, airtight seal that locks in freshness.</span>
+                                <span class="text-green-600 font-bold mr-3 mt-1 text-lg">⚡</span>
+                                <span><strong class="font-semibold">EB Crosslinking:</strong> Electron Beam technology creates dense polymer networks, dramatically increasing heat resistance (for sterilization) and mechanical strength against puncture.</span>
                             </li>
                             <li class="flex items-start">
-                                <span class="text-sky-600 font-bold mr-3 mt-1 text-lg">&#9733;</span>
-                                <span><strong class="font-semibold">High-Flow Valve:</strong> The reinforced one-way valve allows for rapid air extraction and reliably prevents any air leakage over storage time.</span>
+                                <span class="text-green-600 font-bold mr-3 mt-1 text-lg">🔒</span>
+                                <span><strong class="font-semibold">LSR Sealing Track & Valve:</strong> Liquid Silicone Rubber (LSR) offers unparalleled biocompatibility, flexibility, and a high-pressure seal, significantly outperforming standard plastic zippers and valves.</span>
                             </li>
                         </ul>
                     </div>
                     
-                    <!-- SealPump Component Card with Mode Selection -->
+                    <!-- SealPump Card -->
                     <div class="bg-white p-8 rounded-xl shadow-lg border-l-4 border-slate-500">
-                        <h3 class="text-2xl font-bold mb-4 text-slate-800 text-center">The SealPump Model</h3>
+                        <h3 class="text-2xl font-bold mb-4 text-slate-800 text-center">The SealPump: Dual-Mode Power</h3>
+                        <p class="mb-4 text-slate-600">The SealPump features a robust aluminum body, a precision **Rotary Vane Pump**, and both electric and PV **Solar Panel** charging capability for remote use.</p>
 
-                        <h3 class="text-xl font-bold mb-4 text-slate-800">Operating Modes</h3>
-                        <p class="mb-4 text-slate-600">A powerful, rechargeable pump with intelligent modes for every need. </p>
                         <div class="flex space-x-2 mb-4 border-b border-slate-300">
-                            <!-- Quick-Seal is default active -->
-                            <button data-mode="quick" class="mode-btn flex-1 p-3 font-semibold border-b-2 border-sky-600 text-sky-600 transition-colors">Quick-Seal</button>
+                            <button data-mode="quick" class="mode-btn flex-1 p-3 font-semibold border-b-2 border-green-600 text-green-600 transition-colors active">Quick-Seal</button>
                             <button data-mode="deep" class="mode-btn flex-1 p-3 font-semibold border-b-2 border-transparent text-slate-500 transition-colors">Deep-Seal</button>
                         </div>
                         <div id="mode-description">
@@ -191,101 +207,126 @@
             </div>
         </section>
 
-        <!-- New User Model Showcase Section (Image Upload) -->
-        <section id="user-model" class="py-20 bg-slate-100">
+        <!-- Advanced Use Cases Section (New Content) -->
+        <section id="advanced-use" class="py-20 bg-slate-100">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">SealTech Showcase</h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">See how much space you save!</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">Advanced and Extreme Use Cases</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">The high-grade materials and engineering of SealTech extend its utility beyond standard household storage.</p>
                 </div>
-                <div class="flex justify-center">
-                    <div class="w-full max-w-xl bg-white p-6 rounded-xl shadow-xl border-t-4 border-sky-600">
-                        <label for="model-image-upload" class="block text-center cursor-pointer p-8 border-2 border-dashed border-slate-300 rounded-lg hover:border-sky-500 transition-colors">
-                            <div id="image-upload-placeholder">
-                                <span class="text-6xl text-slate-400">📸</span>
-                                <p class="mt-2 text-slate-500 font-medium">Click to Upload Your Sealed Item Photo</p>
-                                <p id="upload-status" class="text-sm text-slate-400 mt-1">No file selected.</p>
-                            </div>
-                            <!-- Image display area (hidden initially) -->
-                            <div id="uploaded-model-image" class="hidden relative">
-                                <img src="https://placehold.co/400x300/10b981/ffffff?text=Your+Sealed+Item" alt="Uploaded Sealed Item" class="w-full h-auto rounded-lg shadow-lg">
-                                <div class="absolute inset-0 flex items-center justify-center bg-black/30 rounded-lg opacity-0 hover:opacity-100 transition-opacity">
-                                    <span class="text-white text-xl font-bold">Image Uploaded!</span>
-                                </div>
-                            </div>
-                        </label>
-                        <input type="file" id="model-image-upload" accept="image/*" class="hidden">
-                        <p class="mt-4 text-center text-sm text-slate-500">Note: This is a simulated upload for demonstration purposes.</p>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Underwater Application Card -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-sky-500">
+                        <h3 class="text-2xl font-bold mb-4 text-sky-800 flex items-center">🌊 Underwater Applications</h3>
+                        <p class="text-slate-600 mb-4">The robust HDPE/PU blend and highly saltwater-resistant LSR seals allow SealTech to be used in challenging environments.</p>
+                        <ul class="space-y-3 list-disc pl-5 text-slate-600">
+                            <li><strong class="font-semibold">Equipment Protection:</strong> Safely seal electronics and sensitive documentation from water ingress and moderate pressure (shallow submersion).</li>
+                            <li><strong class="font-semibold">Sample Collection:</strong> Preserve biological or geological samples in a sealed, pressure-regulated environment immediately upon collection.</li>
+                        </ul>
+                    </div>
+                    <!-- Medical/Biological Application Card -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-red-500">
+                        <h3 class="text-2xl font-bold mb-4 text-red-800 flex items-center">🔬 Medical & Biological Integrity</h3>
+                        <p class="text-slate-600 mb-4">The thermal stability from EB crosslinking is crucial for maintaining sterile conditions.</p>
+                        <ul class="space-y-3 list-disc pl-5 text-slate-600">
+                            <li><strong class="font-semibold">Sterile Isolation:</strong> Potential to withstand autoclaving for sterilizing instruments or creating a sealed, sterile transport environment for biological cultures.</li>
+                            <li><strong class="font-semibold">Biopharma Preservation:</strong> The Deep-Seal mode can achieve near-zero oxygen, critical for preserving sensitive reagents and pharmaceutical compounds.</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </section>
 
 
-        <!-- How to Use Section -->
+        <!-- Benefits Section (Rewritten) -->
+        <section id="benefits" class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">Environmental Responsibility & Long-Term Value</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">SealTech is built for superior performance and a more sustainable lifecycle.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="text-center bg-green-50 p-6 rounded-xl shadow-md">
+                        <div class="text-4xl mb-3">🥦</div>
+                        <h4 class="text-xl font-semibold mb-2">Food Waste Reduction</h4>
+                        <p class="text-slate-600">The Deep-Seal mode virtually eliminates oxidation and moisture loss, preventing freezer burn and dramatically extending the life of perishables.</p>
+                    </div>
+                    <div class="text-center bg-green-50 p-6 rounded-xl shadow-md">
+                        <div class="text-4xl mb-3">♻️</div>
+                        <h4 class="text-xl font-semibold mb-2">Eco-Conscious Design</h4>
+                        <p class="text-slate-600">High recyclability (HDPE bag, Aluminum pump) and environmentally friendly EB crosslinking minimize the product's long-term environmental footprint.</p>
+                    </div>
+                    <div class="text-center bg-green-50 p-6 rounded-xl shadow-md">
+                        <div class="text-4xl mb-3">📦</div>
+                        <h4 class="text-xl font-semibold mb-2">Maximum Space Efficiency</h4>
+                        <p class="text-slate-600">Quick-Seal mode uses external atmospheric pressure to achieve extreme volume reduction for clothing, bedding, and travel, saving critical space.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- User Model Showcase Section (Kept as a simple, visual interaction) -->
+        <section id="user-model" class="py-20 bg-slate-100">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">SealTech Showcase: Item Compaction</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">Imagine your item perfectly sealed and compact. (Simulated visual: upload to change the content icon).</p>
+                </div>
+                <div class="flex justify-center">
+                    <div class="w-full max-w-xl bg-white p-6 rounded-xl shadow-xl border-t-4 border-green-600">
+                        <div class="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
+                            <label for="item-selector" class="font-semibold text-lg text-slate-700">Select Item Type:</label>
+                            <select id="item-selector" class="bg-white border border-slate-300 rounded-lg p-2 shadow-inner focus:ring-green-500 focus:border-green-500 transition-colors">
+                                <option value="👕">Clothing/Storage (👕)</option>
+                                <option value="🥩">Food/Meat (🥩)</option>
+                                <option value="🧪">Reagents/Medical (🧪)</option>
+                                <option value="🤿">Equipment/Underwater (🤿)</option>
+                            </select>
+                        </div>
+                        <p class="mt-4 text-center text-sm text-slate-500">The selected item icon will appear in the simulation above.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- How to Use Section (Kept for completeness) -->
         <section id="usage" class="py-20">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">Simple 5-Step Process</h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">We designed the SealTech System to be incredibly intuitive and on-the-go! Follow these simple steps for quick, easy, and satisfying vacuum sealing.</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">Operational Simplicity</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">Five easy steps to activate molecular preservation.</p>
                 </div>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-6 text-center">
                     <!-- Step 1 -->
                     <div class="bg-white p-6 rounded-xl shadow-md transition-shadow hover:shadow-lg">
-                        <div class="text-4xl font-extrabold text-sky-600 mb-2">1</div>
-                        <h4 class="font-semibold text-xl mb-2">Load</h4>
-                        <p class="text-sm text-slate-600">Place your item(s) into the SealBag on a flat surface. </p>
+                        <div class="text-4xl font-extrabold text-green-600 mb-2">1</div>
+                        <h4 class="font-semibold text-xl mb-2">Load Item</h4>
+                        <p class="text-sm text-slate-600">Place your item(s) into the SealBag on a clean, flat surface. </p>
                     </div>
                     <!-- Step 2 -->
                     <div class="bg-white p-6 rounded-xl shadow-md transition-shadow hover:shadow-lg">
-                        <div class="text-4xl font-extrabold text-sky-600 mb-2">2</div>
-                        <h4 class="font-semibold text-xl mb-2">Seal</h4>
-                        <p class="text-sm text-slate-600">Firmly slide the zipper across the Sealing Track to close the bag</p>
+                        <div class="text-4xl font-extrabold text-green-600 mb-2">2</div>
+                        <h4 class="font-semibold text-xl mb-2">Lock LSR Track</h4>
+                        <p class="text-sm text-slate-600">Firmly slide the zipper across the Liquid Silicone Rubber Sealing Track to ensure an airtight lock.</p>
                     </div>
                     <!-- Step 3 -->
                     <div class="bg-white p-6 rounded-xl shadow-md transition-shadow hover:shadow-lg">
-                        <div class="text-4xl font-extrabold text-sky-600 mb-2">3</div>
-                        <h4 class="font-semibold text-xl mb-2">Vacuum</h4>
-                        <p class="text-sm text-slate-600">Attach the SealPump to the valve and select your desired operating mode.</p>
+                        <div class="text-4xl font-extrabold text-green-600 mb-2">3</div>
+                        <h4 class="font-semibold text-xl mb-2">Select Mode</h4>
+                        <p class="text-sm text-slate-600">Attach the SealPump to the SealValve and select Quick-Seal or Deep-Seal mode.</p>
                     </div>
                     <!-- Step 4 -->
                     <div class="bg-white p-6 rounded-xl shadow-md transition-shadow hover:shadow-lg">
-                        <div class="text-4xl font-extrabold text-sky-600 mb-2">4</div>
-                        <h4 class="font-semibold text-xl mb-2">Compress</h4>
-                        <p class="text-sm text-slate-600">The pump extracts air; the bag rapidly shrinks. The pump shuts off automatically.</p>
+                        <div class="text-4xl font-extrabold text-green-600 mb-2">4</div>
+                        <h4 class="font-semibold text-xl mb-2">Activate Vacuum</h4>
+                        <p class="text-sm text-slate-600">The pump extracts air; the bag rapidly shrinks. The pump achieves the target pressure and stops automatically.</p>
                     </div>
                     <!-- Step 5 -->
                     <div class="bg-white p-6 rounded-xl shadow-md transition-shadow hover:shadow-lg">
-                        <div class="text-4xl font-extrabold text-sky-600 mb-2">5</div>
-                        <h4 class="font-semibold text-xl mb-2">Store</h4>
-                        <p class="text-sm text-slate-600">Remove the pump and store your now-compact and perfectly protected item.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Benefits Section -->
-        <section id="benefits" class="py-20 bg-white">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800">Designed for Your Life</h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">The SealTech system isn't just a product; it's a better way to manage your space and preserve your valuables. </p>
-                </div>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="text-center bg-slate-50 p-6 rounded-xl shadow-md">
-                        <div class="text-4xl mb-3">🛡️</div>
-                        <h4 class="text-xl font-semibold mb-2">Extreme Durability</h4>
-                        <p class="text-slate-600">The SealBag is designed for heavy contents without rupturing under the high compression force.</p>
-                    </div>
-                    <div class="text-center bg-slate-50 p-6 rounded-xl shadow-md">
-                        <div class="text-4xl mb-3">💧</div>
-                        <h4 class="text-xl font-semibold mb-2">Total Protection</h4>
-                        <p class="text-slate-600">Creates a perfect seal that protects against mold, moisture, dust, and insects, keeping contents safe</p>
-                    </div>
-                    <div class="text-center bg-slate-50 p-6 rounded-xl shadow-md">
-                        <div class="text-4xl mb-3">⏱️</div>
-                        <h4 class="text-xl font-semibold mb-2">Rapid Operation</h4>
-                        <p class="text-slate-600">The SealPump's turbine engine quickly achieves maximum vacuum. </p>
+                        <div class="text-4xl font-extrabold text-green-600 mb-2">5</div>
+                        <h4 class="font-semibold text-xl mb-2">Store & Protect</h4>
+                        <p class="text-sm text-slate-600">Remove the pump. Your contents are now compact and perfectly protected against external elements.</p>
                     </div>
                 </div>
             </div>
@@ -295,8 +336,8 @@
     
     <footer class="bg-slate-800 text-slate-300 py-8">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p>&copy; 2025 SealTech Systems. All rights reserved. Rayan Basit, Muhammad Kamran, Ali Salam.</p>
-            <p class="text-sm text-slate-400 mt-2">Revolutionizing storage and preservation through science.</p>
+            <p>&copy; 2025 SealTech Systems. Molecular Preservation, Reimagined.</p>
+            <p class="text-sm text-slate-400 mt-2">Engineered by Rayan Basit, Muhammad Kamran, Ali Salam.</p>
         </div>
     </footer>
 
@@ -307,14 +348,16 @@
         // === SealTech App Logic ===
         
         // Constants for the simulation
-        const INITIAL_PARTICLE_COUNT = 30;
+        const INITIAL_PARTICLE_COUNT = 40; // Increased count for better visualization
         const PARTICLE_SPEED = 2; // Base speed multiplier
         
         // Bag Size Constants
         const INITIAL_WIDTH = 280;
         const INITIAL_HEIGHT = 200;
-        const FINAL_WIDTH = 100; // Final visual size after compression
-        const FINAL_HEIGHT = 70; // Final visual size after compression
+        const FINAL_WIDTH_QUICK = 100; // Final visual size after quick compression
+        const FINAL_HEIGHT_QUICK = 70; // Final visual size after quick compression
+        const FINAL_WIDTH_DEEP = 70; // Final visual size after deep compression
+        const FINAL_HEIGHT_DEEP = 50; // Final visual size after deep compression
         
         // Chart Constants
         const INITIAL_VOLUME_PCT = 100;
@@ -322,34 +365,40 @@
 
         // Dynamic State Variables based on selected mode
         let currentMode = 'quick';
-        let COMPRESSION_DURATION_MS = 3000;
-        let FINAL_PARTICLE_COUNT = 6;
-        let PARTICLES_TO_REMOVE = INITIAL_PARTICLE_COUNT - FINAL_PARTICLE_COUNT;
-        let FINAL_VOLUME_PCT = 20;
-        let FINAL_PRESSURE_PCT = 85;
+        let COMPRESSION_DURATION_MS;
+        let FINAL_PARTICLE_COUNT;
+        let PARTICLES_TO_REMOVE;
+        let FINAL_VOLUME_PCT;
+        let FINAL_PRESSURE_PCT;
+        let FINAL_BAG_WIDTH;
+        let FINAL_BAG_HEIGHT;
 
-        // Mode Configurations
+        // Mode Configurations - Updated to reflect new concept
         const modeConfigs = {
             quick: {
-                name: 'Quick-Seal (Fast Compression)',
-                duration: 3000, // Faster
-                finalParticles: 6, // Less deep vacuum
+                name: 'Quick-Seal (Bulk Reduction)',
+                duration: 3000, 
+                finalParticles: 10, // Fast, leaves some residual air
                 finalVolumePct: 25,
-                finalPressurePct: 80,
+                finalPressurePct: 80, // External pressure effect
+                finalBagWidth: FINAL_WIDTH_QUICK,
+                finalBagHeight: FINAL_HEIGHT_QUICK,
                 description: `
-                    <h4 class="font-semibold text-lg mb-2">Maximum Compaction (Quick-Seal)</h4>
-                    <p>The high-speed, high-flow mode is perfect for rapidly reducing the bulk of soft items like clothes and bedding, maximizing storage space in seconds.</p>
+                    <h4 class="font-semibold text-lg mb-2 text-green-700">Quick-Seal: Maximize Space (3 Seconds)</h4>
+                    <p>High-speed, high-flow vacuum designed for large-volume items like seasonal clothing, bedding, and bulky travel gear. Achieves rapid compression to maximize storage capacity.</p>
                 `
             },
             deep: {
-                name: 'Deep-Seal (Precision Vacuum)',
-                duration: 5000, // Slower, for deep vacuum
-                finalParticles: 2, // Near perfect vacuum
-                finalVolumePct: 10,
-                finalPressurePct: 95,
+                name: 'Deep-Seal (Precision Preservation)',
+                duration: 5000, 
+                finalParticles: 3, // Near-zero oxygen environment
+                finalVolumePct: 15,
+                finalPressurePct: 95, // Max external pressure effect
+                finalBagWidth: FINAL_WIDTH_DEEP,
+                finalBagHeight: FINAL_HEIGHT_DEEP,
                 description: `
-                    <h4 class="font-semibold text-lg mb-2">Precision Vacuum (Deep-Seal)</h4>
-                    <p>A slower, more controlled extraction process designed for long-term food preservation where eliminating nearly all air prevents moisture, oxidation, and freezer burn.</p>
+                    <h4 class="font-semibold text-lg mb-2 text-green-700">Deep-Seal: Molecular Integrity (5 Seconds)</h4>
+                    <p>A slower, controlled extraction process focused on achieving a near-zero-oxygen environment. Critical for long-term food preservation, sterile medical transport, and sensitive reagents (prevents oxidation and moisture degradation).</p>
                 `
             }
         };
@@ -357,9 +406,7 @@
         let animationFrameId; // For requestAnimationFrame
         let startTime = null;
         let isSimulating = true;
-        let particlesRemoved = 0; // Tracks particles removed during animation
-
-        // Particle data structure
+        let particlesRemoved = 0; 
         const particles = [];
 
         const app = {
@@ -373,11 +420,8 @@
                 modeButtons: document.querySelectorAll('.mode-btn'),
                 modeDescription: document.getElementById('mode-description'),
                 sealPumpLight: document.getElementById('seal-pump-light'),
-                // Elements for image upload (now present in HTML)
-                imageInput: document.getElementById('model-image-upload'),
-                imageDisplay: document.getElementById('uploaded-model-image'),
-                imagePlaceholder: document.getElementById('image-upload-placeholder'),
-                uploadStatus: document.getElementById('upload-status'),
+                contentIcon: document.getElementById('content-icon'),
+                itemSelector: document.getElementById('item-selector'),
             },
 
             // Current state of the bag (used for boundary checking)
@@ -402,10 +446,23 @@
                 FINAL_PARTICLE_COUNT = config.finalParticles;
                 FINAL_VOLUME_PCT = config.finalVolumePct;
                 FINAL_PRESSURE_PCT = config.finalPressurePct;
+                FINAL_BAG_WIDTH = config.finalBagWidth;
+                FINAL_BAG_HEIGHT = config.finalBagHeight;
                 PARTICLES_TO_REMOVE = INITIAL_PARTICLE_COUNT - FINAL_PARTICLE_COUNT;
                 
                 // Update description panel
                 this.elements.modeDescription.innerHTML = config.description;
+
+                // Update button active state
+                this.elements.modeButtons.forEach(btn => {
+                    if (btn.getAttribute('data-mode') === mode) {
+                        btn.classList.add('active');
+                        btn.classList.remove('text-slate-500', 'border-transparent');
+                    } else {
+                        btn.classList.remove('active');
+                        btn.classList.add('text-slate-500', 'border-transparent');
+                    }
+                });
 
                 // Ensure the chart reflects the starting state when mode is changed (unless it's the very first init)
                 if (!initial) {
@@ -424,12 +481,12 @@
                 this.chart = new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: ['Volume (%)', 'Effective Pressure (%)'],
+                        labels: ['Initial Volume (%)', 'Effective External Pressure (%)'],
                         datasets: [{
-                            label: 'State',
+                            label: 'Current State',
                             data: [volume, pressure],
-                            backgroundColor: ['rgba(56, 189, 248, 0.7)', 'rgba(100, 116, 139, 0.7)'],
-                            borderColor: ['rgba(56, 189, 248, 1)', 'rgba(100, 116, 139, 1)'],
+                            backgroundColor: ['rgba(22, 163, 74, 0.7)', 'rgba(100, 116, 139, 0.7)'],
+                            borderColor: ['rgba(22, 163, 74, 1)', 'rgba(100, 116, 139, 1)'],
                             borderWidth: 1,
                             borderRadius: 6
                         }]
@@ -455,7 +512,7 @@
                             legend: { display: false },
                             title: {
                                 display: true,
-                                text: 'Volume vs. Effective Pressure (Initial State)',
+                                text: 'Volume & External Compression Simulation',
                                 font: { size: 16, weight: 'bold' }
                             }
                         }
@@ -463,239 +520,197 @@
                 });
             },
             
-            // Function to dynamically update the chart during animation
+            // Updates chart data based on current state
             updateChart(volume, pressure) {
                 this.chart.data.datasets[0].data = [volume, pressure];
-                // Display the actual particle count in the title for clarity
-                this.chart.options.plugins.title.text = `Current State (${modeConfigs[currentMode].name}, Particles: ${particles.length})`;
-                this.chart.update('none'); // Update immediately without animation
-            },
-
-            generateAirParticles(count) {
-                // Clear existing visuals and array
-                this.elements.airParticlesContainer.innerHTML = '';
-                particles.length = 0; 
-                particlesRemoved = 0;
-                
-                // Ensure initial positions are within the *current* reset boundary
-                const initialW = this.boundary.width;
-                const initialH = this.boundary.height;
-
-                for (let i = 0; i < count; i++) {
-                    const particleEl = document.createElement('div');
-                    particleEl.className = 'air-particle';
-                    this.elements.airParticlesContainer.appendChild(particleEl);
-                    
-                    // Random starting position (x, y) and velocity (dx, dy)
-                    const x = Math.random() * initialW; 
-                    const y = Math.random() * initialH;
-                    const dx = (Math.random() - 0.5) * PARTICLE_SPEED;
-                    const dy = (Math.random() - 0.5) * PARTICLE_SPEED;
-                    
-                    particles.push({ x, y, dx, dy, element: particleEl });
-                }
-            },
-            
-            // The core physics loop for particle movement and collision
-            updateParticles() {
-                const { width, height } = this.boundary;
-                const particleSize = 5; // Particle width/height in px
-
-                particles.forEach(p => {
-                    // Update position
-                    p.x += p.dx;
-                    p.y += p.dy;
-
-                    // Boundary collision (reverses direction)
-                    // Clamp position to prevent particles from escaping during shrinking
-                    if (p.x <= 0 || p.x + particleSize >= width) {
-                        p.dx *= -1;
-                        p.x = Math.max(0, Math.min(p.x, width - particleSize)); 
-                    }
-                    if (p.y <= 0 || p.y + particleSize >= height) {
-                        p.dy *= -1;
-                        p.y = Math.max(0, Math.min(p.y, height - particleSize)); 
-                    }
-
-                    // Apply position to DOM element
-                    p.element.style.transform = `translate(${p.x}px, ${p.y}px)`;
-                });
-            },
-
-            // Main animation loop using requestAnimationFrame
-            simulationLoop(timestamp) {
-                if (!isSimulating) {
-                    cancelAnimationFrame(animationFrameId);
-                    return;
-                }
-                
-                if (startTime !== null) {
-                    const elapsed = timestamp - startTime;
-                    const progress = Math.min(1, elapsed / COMPRESSION_DURATION_MS);
-                    
-                    // 1. Calculate current size (Visual Shrinking)
-                    const currentWidth = INITIAL_WIDTH - (INITIAL_WIDTH - FINAL_WIDTH) * progress;
-                    const currentHeight = INITIAL_HEIGHT - (INITIAL_HEIGHT - FINAL_HEIGHT) * progress;
-                    
-                    this.elements.sealBagVisual.style.width = `${currentWidth}px`;
-                    this.elements.sealBagVisual.style.height = `${currentHeight}px`;
-
-                    // Update physics boundary
-                    this.boundary.width = currentWidth;
-                    this.boundary.height = currentHeight;
-                    
-                    // 2. Particle Removal Logic
-                    if (progress < 1) {
-                        // Determine how many particles *should* have been removed by this point
-                        const targetRemoved = Math.floor(progress * PARTICLES_TO_REMOVE);
-                        const particlesToRemoveNow = targetRemoved - particlesRemoved;
-
-                        for (let i = 0; i < particlesToRemoveNow; i++) {
-                            if (particles.length > FINAL_PARTICLE_COUNT) {
-                                // Remove a random particle (simulating extraction)
-                                const randomIndex = Math.floor(Math.random() * particles.length);
-                                const particle = particles.splice(randomIndex, 1)[0];
-                                // Use a fade-out effect before removal
-                                particle.element.style.opacity = '0'; 
-                                setTimeout(() => particle.element.remove(), 500); 
-                                particlesRemoved++;
-                            }
-                        }
-                    }
-
-                    // 3. Update Chart (interpolate values)
-                    const currentVolume = INITIAL_VOLUME_PCT - (INITIAL_VOLUME_PCT - FINAL_VOLUME_PCT) * progress;
-                    const currentPressure = INITIAL_PRESSURE_PCT + (FINAL_PRESSURE_PCT - INITIAL_PRESSURE_PCT) * progress;
-                    this.updateChart(currentVolume, currentPressure);
-
-                    if (progress >= 1) {
-                        startTime = null; // Animation finished
-                        this.elements.activateBtn.disabled = true; // Disable until reset
-                        this.elements.sealBagVisual.classList.add('bg-sky-600/20', 'border-sky-800'); // Final sealed look
-                        this.elements.sealBagVisual.classList.remove('border-dashed');
-                        
-                        // Turn off the pump light when done
-                        this.elements.sealPumpLight.classList.remove('pump-on');
-                    }
-                }
-                
-                this.updateParticles();
-                animationFrameId = requestAnimationFrame(this.simulationLoop.bind(this));
+                this.chart.update();
             },
 
             addEventListeners() {
-                this.elements.activateBtn.addEventListener('click', () => this.runAnimation());
+                this.elements.activateBtn.addEventListener('click', () => this.startAnimation());
                 this.elements.resetBtn.addEventListener('click', () => this.resetAnimation());
                 
-                this.elements.modeButtons.forEach(button => {
-                    button.addEventListener('click', (e) => this.handleModeChange(e));
+                // Mode selector buttons
+                this.elements.modeButtons.forEach(btn => {
+                    btn.addEventListener('click', (e) => this.setMode(e.target.getAttribute('data-mode')));
                 });
 
-                // Image upload handler
-                this.elements.imageInput.addEventListener('change', (e) => this.handleImageSelect(e));
-
-                // Smooth scrolling for navigation
-                document.querySelectorAll('header nav a').forEach(anchor => {
-                    anchor.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        document.querySelector(this.getAttribute('href')).scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    });
+                // Item selector
+                this.elements.itemSelector.addEventListener('change', (e) => {
+                    this.elements.contentIcon.textContent = e.target.value;
                 });
             },
-            
-            runAnimation() {
-                // Ignore if already running
-                if (startTime !== null) return;
 
+            generateAirParticles(count) {
+                // Clear existing particles
+                particles.length = 0;
+                this.elements.airParticlesContainer.innerHTML = '';
+
+                for (let i = 0; i < count; i++) {
+                    const el = document.createElement('div');
+                    el.classList.add('air-particle');
+                    
+                    // Initial random position within the initial boundaries
+                    const x = Math.random() * INITIAL_WIDTH;
+                    const y = Math.random() * INITIAL_HEIGHT;
+
+                    // Store particle state
+                    const particle = {
+                        id: i,
+                        x: x,
+                        y: y,
+                        vx: (Math.random() - 0.5) * PARTICLE_SPEED,
+                        vy: (Math.random() - 0.5) * PARTICLE_SPEED,
+                        element: el,
+                        removed: false
+                    };
+                    particles.push(particle);
+                    this.elements.airParticlesContainer.appendChild(el);
+                    this.updateParticlePosition(particle);
+                }
+            },
+
+            updateParticlePosition(particle) {
+                particle.element.style.transform = `translate(${particle.x}px, ${particle.y}px)`;
+            },
+
+            simulationLoop() {
+                if (!isSimulating) return;
+
+                const boundary = this.boundary;
+
+                particles.forEach(p => {
+                    if (p.removed) return;
+
+                    // 1. Update position based on velocity
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    // 2. Boundary collision detection (bounce)
+                    if (p.x < 0) {
+                        p.x = 0;
+                        p.vx *= -1;
+                    } else if (p.x > boundary.width - 5) { // 5px is particle size
+                        p.x = boundary.width - 5;
+                        p.vx *= -1;
+                    }
+
+                    if (p.y < 0) {
+                        p.y = 0;
+                        p.vy *= -1;
+                    } else if (p.y > boundary.height - 5) {
+                        p.y = boundary.height - 5;
+                        p.vy *= -1;
+                    }
+
+                    this.updateParticlePosition(p);
+                });
+
+                animationFrameId = requestAnimationFrame(() => this.simulationLoop());
+            },
+
+            startAnimation() {
+                if (startTime !== null) return; // Already running
+
+                // Setup state
+                this.elements.activateBtn.disabled = true;
+                this.elements.modeButtons.forEach(btn => btn.disabled = true);
+                this.elements.sealPumpLight.classList.add('pump-on');
+                startTime = performance.now();
+                particlesRemoved = 0;
+
+                // Start the physics animation and the removal/compression animation
+                this.compressionAnimation(startTime);
+            },
+
+            compressionAnimation(timestamp) {
+                const elapsed = timestamp - startTime;
+                const progress = Math.min(1, elapsed / COMPRESSION_DURATION_MS);
+                
+                // 1. Bag Compression (Visual Size Change)
+                this.boundary.width = INITIAL_WIDTH + (FINAL_BAG_WIDTH - INITIAL_WIDTH) * progress;
+                this.boundary.height = INITIAL_HEIGHT + (FINAL_BAG_HEIGHT - INITIAL_HEIGHT) * progress;
+                this.elements.sealBagVisual.style.width = `${this.boundary.width}px`;
+                this.elements.sealBagVisual.style.height = `${this.boundary.height}px`;
+
+                // 2. Particle Removal (Air Extraction)
+                const targetParticlesToRemove = Math.floor(PARTICLES_TO_REMOVE * progress);
+                const currentRemoved = particles.filter(p => p.removed).length;
+                
+                // Remove required number of particles
+                for (let i = currentRemoved; i < targetParticlesToRemove; i++) {
+                    const particleIndexToRem = particles.findIndex(p => !p.removed);
+                    if (particleIndexToRem !== -1) {
+                        particles[particleIndexToRem].removed = true;
+                        particles[particleIndexToRem].element.style.opacity = '0';
+                        // Immediately remove the DOM element after a short fade-out
+                        setTimeout(() => {
+                            particles[particleIndexToRem].element.remove();
+                        }, 500);
+                    }
+                }
+
+                // 3. Chart Data Update (Volume/Pressure)
+                const currentVolume = INITIAL_VOLUME_PCT + (FINAL_VOLUME_PCT - INITIAL_VOLUME_PCT) * progress;
+                const currentPressure = INITIAL_PRESSURE_PCT + (FINAL_PRESSURE_PCT - INITIAL_PRESSURE_PCT) * progress;
+                this.updateChart(currentVolume, currentPressure);
+
+                if (progress < 1) {
+                    requestAnimationFrame((t) => this.compressionAnimation(t));
+                } else {
+                    this.animationComplete();
+                }
+            },
+
+            animationComplete() {
+                startTime = null;
+                this.elements.activateBtn.disabled = false;
                 this.elements.activateBtn.classList.add('hidden');
                 this.elements.resetBtn.classList.remove('hidden');
-                this.elements.activateBtn.disabled = false;
-
-                // Reset visual state for compression
-                this.elements.sealBagVisual.classList.remove('bg-sky-600/20', 'border-sky-800');
-                this.elements.sealBagVisual.classList.add('border-dashed');
-
-                // Turn the pump light on
-                this.elements.sealPumpLight.classList.add('pump-on');
-
-                startTime = performance.now(); // Start the compression timer
-                if (!isSimulating) { // Restart loop if stopped
-                    isSimulating = true;
-                    this.simulationLoop();
-                }
+                this.elements.sealPumpLight.classList.remove('pump-on');
+                this.elements.sealPumpLight.style.backgroundColor = '#10b981'; // green-600 for sealed state
+                this.elements.modeButtons.forEach(btn => btn.disabled = false);
             },
 
             resetAnimation() {
-                this.elements.activateBtn.classList.remove('hidden');
-                this.elements.resetBtn.classList.add('hidden');
-                this.elements.activateBtn.disabled = false;
+                cancelAnimationFrame(animationFrameId); // Stop any ongoing loop (if for some reason it didn't stop)
+                isSimulating = false; // Pause the physics loop briefly
                 
-                // Stop the compression timer and reset the physics boundary
+                // Reset state variables
                 startTime = null;
+                particlesRemoved = 0;
+
+                // Reset visual size via JS for immediate change
                 this.boundary.width = INITIAL_WIDTH;
                 this.boundary.height = INITIAL_HEIGHT;
-                
-                // Reset bag visual
                 this.elements.sealBagVisual.style.width = `${INITIAL_WIDTH}px`;
                 this.elements.sealBagVisual.style.height = `${INITIAL_HEIGHT}px`;
-                this.elements.sealBagVisual.classList.remove('bg-sky-600/20', 'border-sky-800');
-                this.elements.sealBagVisual.classList.add('border-dashed');
-                
-                // Turn the pump light off
-                this.elements.sealPumpLight.classList.remove('pump-on');
 
-                // Reset particles (re-generate initial count)
+                // Regenerate particles
                 this.generateAirParticles(INITIAL_PARTICLE_COUNT);
 
-                // Reset chart
-                this.updateChart(INITIAL_VOLUME_PCT, INITIAL_PRESSURE_PCT);
-                this.chart.options.plugins.title.text = 'Volume vs. Effective Pressure (Initial State)';
-                this.chart.update('none');
-            },
+                // Reset Chart
+                this.setupChart(INITIAL_VOLUME_PCT, INITIAL_PRESSURE_PCT);
 
-            // FIX: Completed the cut-off function
-            handleModeChange(e) {
-                const selectedMode = e.currentTarget.dataset.mode;
-                this.setMode(selectedMode); // Apply new mode constants
+                // Reset buttons and lights
+                this.elements.activateBtn.disabled = false;
+                this.elements.activateBtn.classList.remove('hidden');
+                this.elements.resetBtn.classList.add('hidden');
+                this.elements.sealPumpLight.classList.remove('pump-on');
+                this.elements.sealPumpLight.style.backgroundColor = '#f59e0b'; // amber-500 for ready state
+                this.elements.modeButtons.forEach(btn => btn.disabled = false);
 
-                // Update button visual state
-                this.elements.modeButtons.forEach(btn => {
-                    btn.classList.remove('border-sky-600', 'text-sky-600');
-                    btn.classList.add('border-transparent', 'text-slate-500');
-                });
-                
-                e.currentTarget.classList.add('border-sky-600', 'text-sky-600');
-                e.currentTarget.classList.remove('border-transparent', 'text-slate-500');
 
-                // Reset the simulation to start state to reflect new mode settings
-                this.resetAnimation();
-            },
-            
-            // Simulated Image Upload Handler
-            handleImageSelect(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                        this.elements.imageDisplay.querySelector('img').src = event.target.result;
-                        this.elements.imageDisplay.classList.remove('hidden');
-                        this.elements.imagePlaceholder.classList.add('hidden');
-                        this.elements.uploadStatus.textContent = `File selected: ${file.name}`;
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    this.elements.imageDisplay.classList.add('hidden');
-                    this.elements.imagePlaceholder.classList.remove('hidden');
-                    this.elements.uploadStatus.textContent = `No file selected.`;
-                }
+                // Restart the physics loop
+                isSimulating = true;
+                this.simulationLoop();
             }
         };
 
-        window.onload = function() {
+        window.onload = function () {
             app.init();
         };
 
     </script>
-
+</body>
+</html>
